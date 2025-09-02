@@ -33,18 +33,7 @@ export async function onRequest({ request, env }) {
     return new Response('URL 是必需的', { status: 400 });
   }
 
-  // Check if this URL has been shortened before (and no custom slug is being attempted)
-  const urlHash = await sha256(url);
-  const existingSlug = await DWZ_KV.get(`hash:${urlHash}`);
 
-  if (existingSlug && !customSlug) {
-    const existingLinkData = await DWZ_KV.get(existingSlug);
-    if (existingLinkData) {
-      return new Response(JSON.stringify({ slug: existingSlug, ...JSON.parse(existingLinkData) }), {
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-  }
 
   let slug = customSlug;
 
@@ -80,7 +69,6 @@ export async function onRequest({ request, env }) {
   const linkData = { original: url, visits: 0 };
 
   await DWZ_KV.put(slug, JSON.stringify(linkData));
-  await DWZ_KV.put(`hash:${urlHash}`, slug);
 
   return new Response(JSON.stringify({ slug, ...linkData }), {
     headers: { 'Content-Type': 'application/json' },

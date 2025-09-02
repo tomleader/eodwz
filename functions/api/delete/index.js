@@ -35,10 +35,7 @@ export async function onRequest({ request, env }) {
   try {
     const linkDataStr = await DWZ_KV.get(slug);
     if (linkDataStr) {
-      const linkData = JSON.parse(linkDataStr);
-      const urlHash = await sha256(linkData.original);
       await DWZ_KV.delete(slug);
-      await DWZ_KV.delete(`hash:${urlHash}`);
     }
 
     return new Response(JSON.stringify({ success: true, slug }), {

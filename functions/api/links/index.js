@@ -36,7 +36,7 @@ export async function onRequest({ request, env }) {
 
     const links = await Promise.all(
       allKeys.map(async ({ key }) => {
-        if (key.startsWith('hash:') || key === 'visitCount') return null;
+        if (key === 'visitCount') return null;
         const value = await DWZ_KV.get(key);
         if (value) {
           try {
