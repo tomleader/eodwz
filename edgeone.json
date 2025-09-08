@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/test1.js",
+      "destination": "https://code.jquery.com/jquery-3.7.1.js",
+      "statusCode": 302
+    }
+  ]
+}
